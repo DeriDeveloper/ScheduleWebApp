@@ -1,0 +1,18 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Выбор расписания";
+
+    /*if (Model.UserInfo != null)
+    {
+        ViewBag.UserInfo = Model.UserInfo;
+    }*/
+
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+
+<p>index</p>

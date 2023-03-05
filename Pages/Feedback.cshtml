@@ -1,0 +1,29 @@
+﻿@page
+@model ScheduleWebApp.Pages.FeedbackModel
+@{
+
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+
+<div style="width:300px; margin: 0 auto;">
+    <h1 style="margin-bottom:20px; text-align:center;" class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Обратная связь</h1>
+    <div>
+        <div class="container-input-field">
+            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Как к вам обращаться?</p>
+            <input id="user_name_input" value="@(Model.UserInfo?.Name)" placeholder="Иван"/>
+        </div>
+        <div class="container-input-field">
+            <p  class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Как с вами связаться? (не обязательно)</p>
+            <input id="feedback_url_user_input" value="" placeholder="Ссылка"/>
+        </div>
+        <div class="container-input-field">
+            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Сообщение</p>
+            <textarea id="message_input" placeholder="Опишите проблему" style="height:160px;"></textarea>
+        </div>
+        <button style="width:100%; padding:10px 20px" class="button button-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" onclick="OnClickSendFeedback(@('"'+Model.RedirectUrl+'"'));">Отправить</button>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿@page
+@model ScheduleWebApp.Pages.NotesModel
+@{
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null) {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+
+<div class="container">
+    <div style="margin: 0 10px 0 10px;">  
+        <div class="mtb-10-px content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+            
+            @if (Model.IsThereAccessToEditing)
+            {
+                @if (Model.InfoAccount != null)
+                {
+                    @if (Model.InfoAccount.User != null)
+                    {
+                        <input id="userIdInput" style="display:none;" value="@(Model.InfoAccount.User.Id)"/>
+                        <input id="groupIdInput" style="display:none;" value="@(Model.GroupId)"/>
+                    }
+
+                }
+                
+                <button class="button button-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" onclick="OnClickCreateNote();" style="font-size:18px;">Создать новую запись</button>
+            }
+
+            @foreach (ScheduleWebApp.Types.NoteFromGroup note in Model.Notes)
+            {
+                <div class="mtb-10-px content-container content-level-2-background-color-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                    <a href="/Note?id=@(note.Id)">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(note.Edited.Date.ToString("dd.MM.yyyy HH:mm"))</p>
+                            </div>
+
+                            <div>
+                                @if (Model.InfoAccount != null)
+                                {
+                                    @if (Model.InfoAccount.User != null) {
+                                        <!--@@if (!ScheduleWebApp.Services.WorkerDB.GetStatusOfViewingARecordByUser(Model.InfoAccount.User.Id, note.Id))
+                                        {
+                                            <div class="view-status-indicator view-status-indicator-theme-@@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                                                <p>!</p>
+                                            </div>
+                                        }-->
+                                    }
+                                    else{
+                                        <div class="view-status-indicator view-status-indicator-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                                            <p>!</p>
+                                        </div>
+                                    }
+                                }
+                                else{
+                                    <div class="view-status-indicator view-status-indicator-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                                        <p>!</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <div>
+                                <p style="font-size:16px;" class="truncate-text-line title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(string.IsNullOrEmpty(note.Title) ? "Нет данных" : note.Title)</p>
+                            </div>
+                            <div>
+                                <p class="truncate-text-line text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(string.IsNullOrEmpty(note.Description) ? "Нет данных" : note.Description)</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

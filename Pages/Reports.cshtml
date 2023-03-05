@@ -1,0 +1,65 @@
+﻿@page
+@model ScheduleWebApp.Pages.ReportsModel
+@{
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+<div class="container">
+    <section class="mtb-10-px content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+        <h1 class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">История запросов расписания групп за сегодня</h1>
+        <h3 class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">описание</h3>
+        <div>
+            @foreach (var groupInfoForReport in Model.ModelGroupsInfoForReportsToday)
+            {
+                @if(groupInfoForReport.NumberOfRequests > 0){
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@groupInfoForReport.groupInfo.Name</p>
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Количество: @(groupInfoForReport.NumberOfRequests)</p>
+                }
+            }
+        </div>
+    </section>
+    <section class="mtb-10-px content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+        <h1 class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">История запросов расписания групп за неделю</h1>
+        <h3 class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">описание</h3>
+        <div>
+            @foreach (var groupInfoForReport in Model.ModelGroupsInfoForReportsInAWeek)
+            {
+                @if (groupInfoForReport.NumberOfRequests > 0)
+                {
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@groupInfoForReport.groupInfo.Name</p>
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Количество: @(groupInfoForReport.NumberOfRequests)</p>
+                }
+            }
+        </div>
+    </section>
+    <section class="mtb-10-px content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+        <h1 class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">История запросов расписания преподавателей за сегодня</h1>
+        <h3 class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">описание</h3>
+        <div>
+            @foreach (var TeacherForReport in Model.ModelTeahersInfoForReportsToday)
+            {
+                @if(TeacherForReport.NumberOfRequests > 0){
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@TeacherForReport.Teacher.FullName</p>
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Количество: @(TeacherForReport.NumberOfRequests)</p>
+                }
+            }
+        </div>
+    </section>
+    <section class="mtb-10-px content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+        <h1 class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">История запросов расписания преподавателей за неделю</h1>
+        <h3 class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">описание</h3>
+        <div>
+            @foreach (var TeacherForReport in Model.ModelTeahersInfoForReportsInAWeek)
+            {
+                @if (TeacherForReport.NumberOfRequests > 0)
+                {
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@TeacherForReport.Teacher.FullName</p>
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Количество: @(TeacherForReport.NumberOfRequests)</p>
+                }
+            }
+        </div>
+    </section>
+</div>

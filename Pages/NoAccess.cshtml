@@ -1,0 +1,12 @@
+﻿@page
+@model ScheduleWebApp.Pages.NoAccessModel
+@{
+
+	if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+	{
+		ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+	}
+}
+
+
+<p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">У вас нет доступа</p>

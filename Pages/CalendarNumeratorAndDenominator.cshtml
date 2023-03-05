@@ -1,0 +1,40 @@
+﻿@page
+@model ScheduleWebApp.Pages.CalendarNumeratorAndDenominatorModel
+@{
+    var redirectUriForFeedback = DeriLibrary.Web.Worker.GetUri(HttpContext.Request.Scheme, HttpContext.Request.Host.Host, HttpContext.Request.Host.Port.GetValueOrDefault(7040), HttpContext.Request.Path.Value, HttpContext.Request.QueryString.ToString());
+
+
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+
+    ViewData["Title"] = "Даты числителя и знаменателя";
+
+    var dateNow = DateTime.Now;
+
+}
+
+
+
+
+<div class="container">
+    <div style="margin: 0 10px 0 10px;">  
+        <div class="mtb-10-px content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+            <div class="mtb-10-px content-container content-container-l-2-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                <h2 style="text-align:center" class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Сегодня: @(DateTime.Now.ToString("dd.MM.yyyy"))</h2>
+            </div>
+            @for (int i = 0; i < Model.DatesNumeratorAndDenominator.Length; i++)
+            {
+                <div style="display: grid; grid-auto-flow: column; background: linear-gradient(90deg, @(ViewData["ThemeName"]  != null ? (ViewData["ThemeName"].Equals("dark") ? "#565559" : "#9457EB"  ) : "#9457EB")  0%, @(ViewData["ThemeName"]  != null ? (ViewData["ThemeName"].Equals("dark") ? "#565559" : "#9457EB"  ) : "#9457EB") @(Model.TypeWeeksForProgress[i])%, @(ViewData["ThemeName"]  != null ? (ViewData["ThemeName"].Equals("dark") ? "#38373C" : "#ededed"  ) : "#ededed")  @(Model.TypeWeeksForProgress[i])%, @(ViewData["ThemeName"]  != null ? (ViewData["ThemeName"].Equals("dark") ? "#38373c" : "#ededed"  ) : "#ededed") 100%);" class="mtb-10-px content-container content-container-l-2-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light") @((Model.DatesNumeratorAndDenominator[i].DateStart <= dateNow && dateNow < Model.DatesNumeratorAndDenominator[i].DateEnd) ?  "container-illumination-theme-" + (ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light") : "")">
+                    <p style="float:left; text-align:start;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.DatesNumeratorAndDenominator[i].DateStart.ToString("dd.MM.yyyy"))</p>
+                    <p style="text-align:center;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")"> @(LibrarySchedule.Services.BackgroundWorker.GetTypeCellSchedule(Model.DatesNumeratorAndDenominator[i])) </p>
+                    <p style="float:right; text-align:end;"  class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.DatesNumeratorAndDenominator[i].DateEnd.ToString("dd.MM.yyyy"))</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+

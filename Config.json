@@ -1,0 +1,57 @@
+{
+    "WorkersSiteSmolApo": {
+        "WorkerSchedule": {
+            "Settings": {
+                "Url": "http://smolapo.ru/sites/default/files/Studentam/2022-2023/rasp%2022-23-2.xlsx",
+                "Version": 1,
+                "StatusWork": false,
+                "WhetherToUploadFile": true,
+                "OutputTablesToConsole": false
+            }
+        },
+        "WorkerChangeSchedule": {
+            "Settings": {
+                "Url": "http://smolapo.ru/sites/default/files/Studentam/2022-2023/izm1.docx",
+                "Version": 1,
+                "StatusWork": false,
+                "WhetherToUploadFile": false,
+                "OutputTablesToConsole": false
+            },
+            "ExclusionWordsFromTextWithTeachersFullName": [
+                "(зам)",
+                "(замещ)"
+            ]
+        },
+        "WorkerExams": {
+            "Settings": {
+                "Url": "http://smolapo.ru/sites/default/files/Studentam/2022-2023/ekz1.xlsx",
+                "Version": 1,
+                "StatusWork": false,
+                "WhetherToUploadFile": false,
+                "OutputTablesToConsole": false
+            }
+        }
+    },
+    "Startup": {
+        "Settings": {
+            "ClearAllCellsScheduleAndChangeSchedule": false,
+            "ClearAllCellsScheduleExam": false,
+            "ClearAllInformationNotesForSchedule": false
+        }
+    },
+    "DeveloperSettings": {
+        "CellSchedule": {
+            "ShowCellId": false,
+            "ShowCellType": false
+        },
+        "Schedule": {
+            "NotificationMessages": {
+                "NotificationMessageUnstableData": {
+                    "ShowStatus": false,
+                    "Title": "Технические работы",
+                    "Descrition": "Идут работы над расписанием, поэтому расписание может быть не стабильным"
+                }
+            }
+        }
+    }
+}

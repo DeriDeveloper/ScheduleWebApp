@@ -1,0 +1,77 @@
+﻿@page
+@model ScheduleWebApp.Pages.ScheduleExamModel
+@{
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+
+<div style="margin: 15px 10px 0 10px;">
+
+
+    <div class="content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+        <h2 style="text-align:center" class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Сегодня: @(DateTime.Now.ToString("dd.MM.yyyy"))</p>
+    </div>
+
+
+    <div style="margin:10px 0;" class="content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+        @if(Model.Group?.Id > 0){
+            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Группа: @(Model.Group.Name)</p>
+        }
+        else if(Model.Teacher?.Id > 0)
+        {
+            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Преподаватель: @(Model.Teacher.GetNameInitials())</p>
+    
+        }
+    </div>
+
+
+
+
+    @if(Model.CellsScheduleExams!=null){
+        @foreach(var cellExam in Model.CellsScheduleExams){
+            <div class="cell-main-container-v2 cell-main-container-v2-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                <div style="text-align:center;">
+                    @if ((cellExam.Date - DateTime.Now).TotalDays >= 1){
+                        <p style="font-size: 16px;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Math.Round((cellExam.Date - DateTime.Now).TotalDays).ToString()) дней осталось</p>
+                    }
+                    else if ((cellExam.Date - DateTime.Now).TotalDays > 0)
+                    {
+                        <p style="font-size: 16px;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Math.Round((cellExam.Date - DateTime.Now).TotalHours).ToString()) часов осталось</p>
+                    }
+                    else{
+                        <p style="font-size: 16px;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Прошло</p>
+                    }
+                    <p style="font-size: 20px;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(LibrarySchedule.Services.BackgroundWorker.GetCellScheduleExamType(cellExam.CellScheduleExamType))</p>
+                </div>
+                <div style="display: flex; justify-content: flex-start; align-items: center;margin-top: 18px;">
+                    <div style="text-align: center;  width: 130px; min-width:130px; font-size: 18px; ">
+                        <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(cellExam.Date.ToString("dd.MM"))</p>    
+                        <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" style="word-break: break-word;">@(ScheduleWebApp.Services.BackgroundWorker.GetTitleDayOfWeek(cellExam.Date, true))</p>    
+                    </div>
+                    <div style="margin-left: 10px; word-break: break-all;">
+                        <p style="font-size: 16px;"  class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(cellExam.Title)</p>
+                        @if (Model.Teacher?.Id != null)
+                        {
+                            if (Model.Teacher?.Id > 0)
+                            {
+                                <a href="ScheduleExam?group_id=@(cellExam.Group.Id)" class="link-text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" style="font-size: 16px;">@(cellExam.Group.Name)</a>
+                            }
+                        }
+                        else if(Model.Group?.Id != null)
+                        {
+                            if (Model.Group.Id > 0)
+                            {
+                                <a href="ScheduleExam?teacher_id=@(cellExam.Teacher.Id)" class="link-text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" style="font-size: 16px;">@(cellExam.Teacher.GetNameInitials())</a>
+                            }
+                        }
+                        <p style="font-size: 16px;"  class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(cellExam.Audience.Name)</p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</div>

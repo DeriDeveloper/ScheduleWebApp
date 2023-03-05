@@ -1,0 +1,84 @@
+﻿@page
+@model ScheduleWebApp.Pages.NoteModel
+@{
+    var redirectUriForFeedback = DeriLibrary.Web.Worker.GetUri(HttpContext.Request.Scheme, HttpContext.Request.Host.Host, HttpContext.Request.Host.Port.GetValueOrDefault(7040), HttpContext.Request.Path.Value, HttpContext.Request.QueryString.ToString());
+
+
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+
+<div class="container">
+    <div style="margin: 0 10px 0 10px;">  
+        <div class="mtb-10-px content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+            
+            @if (Model.NoteInfo != null) {
+                @if (!Model.NoteInfo.IsDeleted)
+                {
+                    @if (Model.IsThereAccessToEditing)
+                    {
+                        @if (Model.InfoAccount != null)
+                        {
+                            <input id="userIdInput" style="display:none;" value="@(Model.InfoAccount.User.Id)"/>
+                        }
+
+                        <input id="noteIdInput" style="display:none;" value="@(Model.NoteInfo.Id)"/>
+
+                    }
+
+                    <h4 class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Название</h4>
+                    @if (!Model.NoteInfo.IsDeleted)
+                    {
+                        @if (Model.IsThereAccessToEditing)
+                        {
+                            <input id="noteTitleInput" type="text" value="@(Model.NoteInfo.Title)"/>
+                        }
+                        else {
+                            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.NoteInfo.Title)</p>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.NoteInfo.Description)</p>
+                    }
+
+                    <h4 class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Описание</h4>
+                    @if (!Model.NoteInfo.IsDeleted) {
+                        @if (Model.IsThereAccessToEditing)
+                        {
+                            <textarea id="noteDescriptionInput" style="height:250px;">@(Model.NoteInfo.Description)</textarea>
+                        }
+                        else {
+                            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.NoteInfo.Description)</p>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.NoteInfo.Description)</p>
+                    }
+
+                    @if (Model.IsThereAccessToEditing && !Model.NoteInfo.IsDeleted)
+                    {
+                        <div >
+                            <button class="mtb-10-px button button-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" onclick="OnClickSaveNote();">Сохранить</button>
+                            <button class="mtb-10-px button button-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" onclick="OnClickDeleteNote();">Удалить</button>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Запись удалена пользователем с id: @(Model.NoteInfo.Deleted.User.Id) @(Model.NoteInfo.Deleted.Date.ToString("dd.MM.yyyy")) в @(Model.NoteInfo.Deleted.Date.ToString("HH:mm:ss"))</p>
+                }
+            }
+            else {
+                <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Произошла ошибка, не найдена запись, попробуйте еще раз или свяжитесь с разработчиком через <a href="/Feedback?redirect_url=@(redirectUriForFeedback)" class="link-text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">обратную связь</a></p>
+            }
+
+            
+            
+        </div>
+    </div>
+</div>

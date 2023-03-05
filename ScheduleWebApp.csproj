@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Config.json" />
+    <Content Remove="libman.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ConsoleTables" Version="2.4.2" />
+    <PackageReference Include="DocX" Version="2.3.0" />
+    <PackageReference Include="EPPlus" Version="6.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <PackageReference Include="System.IO.Packaging" Version="7.0.0" />
+    <PackageReference Include="Telegram.Bot" Version="18.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DeriLibrary">
+      <HintPath>..\DeriLibrary\bin\Debug\netstandard2.1\DeriLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\SelectSchedule.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Notes.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\SelectSchedule.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Scss\styles.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\files\mobile-app.apk">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\clock_time.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Notes.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibrarySchedule\LibrarySchedule.csproj" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties config_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

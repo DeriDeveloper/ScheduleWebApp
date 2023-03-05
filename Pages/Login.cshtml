@@ -1,0 +1,132 @@
+﻿@page
+@model ScheduleWebApp.Pages.LoginModel
+@{
+    ViewBag.Title = "Авторизация";
+    if(Model.NotifyMessages != null){
+        ViewBag.NotifyMessages = Model.NotifyMessages;
+    }
+
+    if (Model.UserInfo != null)
+    {
+        ViewBag.UserInfo = Model.UserInfo;
+    }
+
+
+}
+
+
+
+<div class="background-authentication" style="margin: 10vh auto 0 auto;">
+    <div class="authentication-select-type-person">
+        <div id="authentication-type-person-student-btn" class="authentication-type-person-btn corner-radius-10" style="background-color:#9457EB; color:#fff;" onclick="AuthenticationTypePersonBtn(0);">
+            <p class="authentication-type-person-btn-content">Стундент</p>
+        </div>
+        <div class="authentication-select-type-person-seporator"></div>
+        <div id="authentication-type-person-teacher-btn" class="authentication-type-person-btn corner-radius-10" onclick="AuthenticationTypePersonBtn(1);">
+            <p class="authentication-type-person-btn-content">Преподаватель</p>
+        </div>
+    </div>
+    <div id="authentication-form-student" style="display:block;" class="authentication-form">
+        <div id="authentication-form-student-enter">
+            <form method="post">
+                <div class="input-field-bcakground">
+                    <p>Логин:</p>
+                    <input type="text" name="login" minlenght="1" class="input-field" style="margin: 6px 0 20px 0;"  required/>
+                </div>
+                <div class="input-field-bcakground">
+                    <p>Пароль:</p>
+                    <input type="password" name="password" minlength="6"  class="input-field" style="margin: 6px 0 20px 0;" required />
+                </div>
+                <div>
+                    <input type="submit" value="Войти" style="cursor:pointer;" class="authentication-form-btn" asp-page-handler="AuthorizationStudent"/>
+                </div>
+            </form>
+            <p onclick="AuthenticationStudentRegistrationShowBtn(0)" style="text-align: center; margin: 23px 0 0 0;  cursor:pointer;">Зарегистрироваться</p>
+        </div>
+        <div id="authentication-form-student-registration" style="display:none;">
+            <form method="post">
+                <div class="input-field-bcakground">
+                    <p>Логин:</p>
+                    <input type="text" name="login" minlength="1" class="input-field" style="margin: 6px 0 20px 0;"  required/>
+                </div>
+                <div>
+                    <p>Пароль:</p>
+                    <input type="password" name="password" minlength="6" class="input-field" style="margin: 6px 0 20px 0;" required />
+                </div>
+                <div>
+                    <p>Повторите пароль:</p>
+                    <input type="password" name="password_replay" minlength="6" class="input-field" style="margin: 6px 0 20px 0;" required />
+                </div>
+                <div>
+                    <p>Группа:</p>
+                    <select name="group_id" required>
+                        @foreach (var group in LibrarySchedule.Services.DateBase.Worker.GetGroups())
+                        {
+                            <option value="@group.Id">@group.Name</option>
+                        }
+                    </select>
+                </div>
+                <!--<div>
+                    <p>Подгруппа:</p>
+                    <select name="subgroup" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>-->
+                <div>
+                    <input type="submit" value="Зарегистрироваться"  class="authentication-form-btn"  style="cursor:pointer;"  asp-page-handler="RegistrationStudent"/>
+                </div>
+            </form>
+            <p onclick="AuthenticationStudentRegistrationShowBtn(1)"  style="text-align: center; margin: 23px 0 0 0; cursor:pointer;">Войти</p>
+
+        </div>
+    </div>
+    <div id="authentication-form-teacher" style="display:none;" class="authentication-form">
+        <div id="authentication-form-teacher-enter">
+            <form method="post">
+                <div class="input-field-bcakground">
+                    <p>Логин:</p>
+                    <input type="text" name="login" minlength="1" class="input-field" style="margin: 6px 0 20px 0;"  required/>
+                </div>
+                <div class="input-field-bcakground">
+                    <p>Пароль:</p>
+                    <input type="password" name="password" minlength="6" class="input-field" style="margin: 6px 0 20px 0;" required />
+                </div>
+                <div>
+                    <input type="submit" value="Войти" style="cursor:pointer;" class="authentication-form-btn" asp-page-handler="AuthorizationTeacher"/>
+                </div>
+            </form>
+            <p onclick="AuthenticationTeacherRegistrationShowBtn(0)" style="text-align: center; margin: 23px 0 0 0;  cursor:pointer;">Зарегистрироваться</p>
+        </div>
+        <div id="authentication-form-teacher-registration" style="display:none;">
+            <form method="post">
+                <div class="input-field-bcakground">
+                    <p>Логин:</p>
+                    <input type="text" name="login" minlength="1" class="input-field" style="margin: 6px 0 20px 0;"  required/>
+                </div>
+                <div>
+                    <p>Пароль:</p>
+                    <input type="password" name="password" minlength="6" class="input-field" style="margin: 6px 0 20px 0;" required />
+                </div>
+                <div>
+                    <p>Повторите пароль:</p>
+                    <input type="password" name="password_replay" minlength="6" class="input-field" style="margin: 6px 0 20px 0;" required />
+                </div>
+                <div>
+                    <p>Преподаватель:</p>
+                    <select name="teacher_id" required>
+                        <!--@@foreach (var Teacher in Services.WorkerDB.GetAllTeachers())
+                        {
+                            <option value="@@Teacher.Id">@@Teacher.FullName</option>
+                        }-->
+                    </select>
+                </div>
+                <div>
+                    <input type="submit" class="authentication-form-btn"  style="cursor:pointer;"  asp-page-handler="RegistrationTeacher" value="Зарегистрироваться"/>
+                </div>
+            </form>
+            <p onclick="AuthenticationTeacherRegistrationShowBtn(1)"  style="text-align: center; margin: 23px 0 0 0; cursor:pointer;">Войти</p>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+﻿@page
+@using Newtonsoft.Json
+@model ScheduleWebApp.Pages.ProfileModel
+@{
+	ViewData["Title"] = "Профиль";
+
+    if (Model.UserInfo != null)
+    {
+        ViewBag.UserInfo = Model.UserInfo;
+    }
+
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+<div class="container">
+    <div style="margin: 0 10px 0 10px;">
+        <div style="display: flex; margin: auto; max-width: fit-content;flex-direction: column;">
+            
+            <p class="title title-purple-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Профиль</p>
+            <div>
+                @if(Model.UserInfo != null){
+                    <div style="margin-bottom: 10px;">
+                        <div>
+                            <p class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Имя</p>
+                            <input style="width: 100%;font-size: 16px;" class="input-container-default" type="text" id="profile-name-input" value="@(Model.UserInfo.Name != null ? Model.UserInfo.Name: "")">
+                        </div>
+                    </div>
+
+                    @switch(Model.UserInfo.TypePerson){
+                        case  LibrarySchedule.Types.Enums.TypePerson.Student:
+                        {
+                                if(Model.Groups != null){
+                                    <div style="margin-bottom: 10px;">                          
+                                        <p class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Группа</p>
+                                        <select id="profile-select-name-group" style="width: 100%;">
+                                            @foreach (var group in Model.Groups)
+                                            {
+                                                if(group.Id == Model.Student.Group.Id){
+                                                    <option value="@(group.Id)" selected>@(group.Name)</option>
+                                                }
+                                                else{
+                                                    <option value="@(group.Id)">@(group.Name)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                }
+
+                                @if (Model?.Student?.Group != null)
+                                {
+                                    <div  style="margin-bottom: 10px;">
+                                        <p class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Специальность<p id="profile-student-specialization" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.Student.Group.Specialization.Name != null ? Model.Student.Group.Specialization.Name : "")</p></p>
+                                    </div>
+                                }
+                            <!--<p>Подгруппа: @@(Model.UserInfo.Subgroup != 0 ? Model.UserInfo.Subgroup.ToString(): "")</p>-->
+                   
+                            break;
+                        }
+                        case  LibrarySchedule.Types.Enums.TypePerson.Teacher: {
+                                
+                                    <div style="margin-bottom: 10px;">                          
+                                        <p class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Преподаватель</p>
+                                        <select id="profile-select-name-teacher" style="width: 100%;">
+                                            @foreach (var teacher in Model.Teachers)
+                                            {
+                                                if (teacher.Id == Model.Teacher.Id)
+                                                {
+                                                   // <option value="@(Teacher.Id)" selected>@(Teacher.FullName)</option>
+                                                }
+                                                else{
+                                                   // <option value="@(Teacher.Id)">@(Teacher.FullName)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                
+                            break;
+                        }
+                    }
+                }
+
+                <div>
+                    <p class="title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Тема</p>
+                    <input id="profile-select-checkbox-theme" type="checkbox" style="width:auto;" @(Model.InfoAccount.UserSettings.ThemeApp ==  LibrarySchedule.Types.Enums.ThemeApp.Dark ? "checked" : "")/>
+                    <label id="profile-theme-label" for="profile-select-checkbox-theme" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.InfoAccount.UserSettings.ThemeApp ==  LibrarySchedule.Types.Enums.ThemeApp.Dark ? "Тёмная" : "Светлая")</label>
+                </div>
+
+                <button class="button button-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")"  style="margin-bottom: 10px;" onclick="SaveProfile()">Сохранить</button>
+
+                <div id="profile-notify-messages-container">
+                
+                </div>
+
+                <form method="post">
+                    <input value="Выйти" class="button button-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" type="submit" asp-page-handler="LogOut"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@page
+@model ScheduleWebApp.Pages.SelectScheduleModel
+@{
+
+	ViewData["Title"] = "Выбор расписания";
+
+	/*if(Model.UserInfo != null){
+		ViewBag.UserInfo = Model.UserInfo;
+	}*/
+
+	if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+	{
+		ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+	}
+}
+
+
+<div style="display: flex; flex-direction: row; justify-content: space-around; margin:20px; flex-wrap: wrap;">
+	<div class="container-menu-item" style="margin:5px;">
+		<div>
+			<p class="title title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Поиск</p>
+		</div>
+		<div class="select-schedule-groups-main-container select-schedule-groups-main-container-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+			<div id="search-group-name-select-schedule" class="search-input-container search-input-container-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" style="margin-bottom: 20px;">
+				<input id="search-name-select-schedule" class="search-input-container-input search-input-container-input-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")"/>
+				<div class="search-input-img-search-container">
+					<img src="/images/search_dark.png" class="search-input-img-search"/>
+				</div>
+			</div>
+			<div  class="select-schedule-groups-name-container">
+				
+				<div>
+					<p class="select-schedule-item-title text-color-gray-300 text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Группы</p>
+				</div>
+				<div id="groups-group-name-select-schedule">
+					@foreach(var groupInfo in Model.Groups){
+						<div class="select-schedule-groups-name-column">
+							<a class="link-text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" href="~/Schedule?group_id=@groupInfo.Id">@groupInfo.Name</a>
+						</div>
+					}
+				</div>
+
+
+				<div>
+					<p class="select-schedule-item-title text-color-gray-300 text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Преподавтели</p>
+				</div>
+				<div id="groups-teacher-name-select-schedule">
+
+					@foreach (var teacher in Model.Teachers)
+					{
+						<div class="select-schedule-groups-name-column">
+							<a class="link-text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" href="~/Schedule?teacher_id=@teacher.Id">@teacher.GetFullName()</a>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

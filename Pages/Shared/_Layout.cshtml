@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>@ViewData["Title"]</title>
+	
+    <link rel="stylesheet" href="~/css/style.css?@(System.IO.File.GetLastWriteTime(ScheduleWebApp.Startup.Environment.WebRootPath + "\\css\\style.css").Ticks)" />
+	<script src="~/js/main.js?@(System.IO.File.GetLastWriteTime(ScheduleWebApp.Startup.Environment.WebRootPath + "\\js\\main.js").Ticks)"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body class="body-background-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+	<!--   feedback controller удален, надо переписать 
+	<a id="button-show-feedback-page" href="/Feedback">
+		<div class="button-container-feedback button-container-feedback-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+			<div style="display:flex; justify-content:center; justify-content: center; align-items: center; height: 100%; width: 100%;">
+				<img src="~/images/message-icon.png" style="width:30px;"/>
+			</div>
+		</div>
+	</a>
+	-->
+
+	<div id="preloader-splash-screen" class="preloader preloader-theme-@(ViewData["ThemeName"] != null ? ViewData["ThemeName"] : "light")">
+		<div class="preloader-main-container">
+			<div class="preloader__row">
+				<img src="~/images/logo.png" style="width: 100%;"/>
+			</div>
+			<p style="font-size:24px;" class="title-purple-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Расписание</p>
+		</div>
+	</div>
+
+	@if (ViewBag.NotificationMessageUnstableData != null)
+	{
+		@if (((Types.ModelConfigJson.NotificationMessageUnstableData)(ViewBag.NotificationMessageUnstableData)).ShowStatus){
+			<div id="popup-notification-message-unstable-data-body" style="z-index:200; background-color: rgba(0,0,0,0.5); width:100%; position:fixed; height:100%; display: flex; justify-content: center; align-items: center;">
+				<div style="max-width: 400px; padding:40px;" class="mlr-20 content-container content-container-l-1-theme-@(ViewData["ThemeName"] != null ? ViewData["ThemeName"] : "light")">
+					<div style="display:flex; justify-content: flex-end;">
+						<button onclick="CustomClosePopupById('popup-notification-message-unstable-data-body');" style="background-color: transparent; border: none; font-size: 22px;" class="text-theme-@(ViewData["ThemeName"] != null ? ViewData["ThemeName"] : "light")">X</button>
+					</div>
+					<h1 style="margin: 10px 0 20px 0;" class="text-center title-theme-@(ViewData["ThemeName"] != null ? ViewData["ThemeName"] : "light")">@(((Types.ModelConfigJson.NotificationMessageUnstableData)(ViewBag.NotificationMessageUnstableData)).Title)</h1>				
+					<p class="text-theme-@(ViewData["ThemeName"] != null ? ViewData["ThemeName"] : "light")">@(((Types.ModelConfigJson.NotificationMessageUnstableData)(ViewBag.NotificationMessageUnstableData)).Descrition)</p>				
+				</div>
+			</div>
+		}
+	}
+
+
+
+	<header class="header-theme-@(ViewData["ThemeName"] != null ? ViewData["ThemeName"] : "light")">
+       <div class="container">
+		   <nav class="top-menu padding-lr-20">
+               <a class="navbar-logo" href="/"> 
+				    <img src="~/images/logo.png" style="width: 50px; margin-right: 15px;"/>
+					<p style="color:#fff;">Расписание</p>
+               </a>
+			   <div class="top-navigation-menu">
+				    <a href="@(ViewBag.UrlScheduleUserForProfile != null ? ViewBag.UrlScheduleUserForProfile : "/SelectSchedule")" style="margin-left: 20px;">
+						<p style="color:#fff;">Главная</p>
+					</a>
+					<a href="~/MobileApplication" style="margin-left: 20px;">
+						<p style="color:#fff;">Мобильное приложение</p>
+					</a>
+
+					<a href="/SelectSchedule" style="margin-left: 20px;">
+						<img src="~/images/search_icon.png" style="width: 30px; height: 30px;"/>
+					</a>
+
+					<a href="/Profile" style="margin-left: 20px;">
+						<img src="~/images/profile_icon.png" style="width: 30px; height: 30px;"/>
+					</a>
+			   </div>
+			</nav>
+       </div>
+    </header>
+
+
+
+
+	
+		
+
+
+
+
+
+	
+	<div id="container-notify-messages" style="position: fixed; top: 10px; right: 10px; width:300px">
+	
+	</div>
+
+	
+
+	
+
+
+    
+
+    <div id="main-body-layout-container" class="wrapper container container-render-body" style="display:none;">
+        <main>
+            @RenderBody()
+        </main>
+    </div>
+
+	
+
+	<footer class="bottom-menu-background bottom-menu-background-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+		<div class="bottom-menu-container container">
+			
+			<a href="/SelectSchedule">
+				<div class="bottom-menu-container-button-container">
+					<img src="~/images/search_icon.png"/>
+					<p>Поиск</p>
+				</div>
+			</a>
+
+			<a href="@(ViewBag.UrlScheduleUserForProfile != null ? ViewBag.UrlScheduleUserForProfile : "/SelectSchedule")">
+				<div class="bottom-menu-container-button-container">
+					<img src="~/images/home_icon.png"/>
+					<p>Главная</p>
+				</div>
+			</a>
+
+			<a href="/Profile">
+				<div class="bottom-menu-container-button-container">
+					<img src="~/images/profile_icon.png"/>
+					<p>Профиль</p>
+				</div>
+			</a>
+
+			
+		</div>
+	</footer>
+
+	@RenderSection("Scripts", required: false)
+</body>
+</html>

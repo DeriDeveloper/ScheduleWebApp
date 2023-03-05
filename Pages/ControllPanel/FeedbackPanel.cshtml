@@ -1,0 +1,37 @@
+﻿@page
+@model ScheduleWebApp.Pages.FeedbackPanelModel
+@{
+
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+<div class="container">
+    <div style="display:flex; justify-content:center;margin: 20px;">
+        <p  class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Количество не отвеченных сообщений: </p>
+        <p id="feedback-not-answered-count" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(Model.FeedbacksNotAnswered.Count)</p>
+    </div>
+    @foreach(var feedback in Model.FeedbacksNotAnswered)
+    {
+        <div id="feedback-container-@(feedback.Id)" class="content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+            <h4 class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Id: @(feedback.Id)</h4>
+            <br/>
+            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(feedback.DateTimeReceipt.ToString("dd.MM.yyyy HH:mm"))</p>
+            <br/>
+            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Статус: @(feedback.ExecutionStatus ? "Отвечен" : "Не отвечен")</p>
+            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Имя пользователя: @(feedback.Name)</p>
+            
+            @if(!string.IsNullOrEmpty(feedback.UrlFeedback)){
+                <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Url обратной связи: @(feedback.UrlFeedback)</p>
+            }
+            
+            <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Собщение: @(feedback.Message)</p>
+            
+
+            
+                 <button onclick="FeedbackAnswered(@(feedback.Id));" class="button button-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Ответил</button>
+        </div>
+    }
+</div>

@@ -1,0 +1,22 @@
+﻿@page
+@model ScheduleWebApp.Pages.AboutBetaModel
+@{
+	ViewData["Title"] = "О проекте";
+
+
+
+	if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+	{
+		ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+	}
+	
+}
+
+
+<div class="container padding-lr-20">
+
+	<p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Проект был создан для студентов и преподавателей СмолАПО</p>
+	<p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Для удобства просмотра расписания и его изменения</p>
+	<p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">На данный момент проект находится в стабильной бета версии</p>
+
+</div>

@@ -1,0 +1,40 @@
+﻿@page
+@model ScheduleWebApp.Pages.DonatModel
+@{
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+
+
+<div class="container">
+    <div style="margin: 0 10px 0 10px;">  
+        <h1 style="font-weight:bold;" class="mb-20-px title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Донат на благо сайта =)</h1>
+        <div style="display:flex;flex-direction: row;">
+            <div style="float:left; ">
+                <h2 style="font-weight:bold;" class="mb-15-px title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Дорогие друзья!</h2>
+                <p class="mb-10-px text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Данный сайт ведется одним человеком исключительно на добровольной основе. Я постоянно стараюсь улучшить функционал, чтобы вы пользовались им просто и легко. Вы, наверное, догадываетесь сколько сил уходит на его развитие и поддержку.</p>
+                <p class="mb-10-px text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Если Вы хотите отблагодарить меня любой суммой, то можете сделать это ниже. На эти деньги я куплю бодрящий кофе, вкусняшку или продлю недешевый хостинг. С радостью продолжу работу, помня о том, что моя работа нужна вам.</p>
+                <p style="font-weight:bold;" class="mb-10px title-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Заранее огромное спасибо!</p>
+            </div>
+            <div style="float: right;width: 300px;margin: 0 0 15px 20px;">
+                <img style="width: inherit;" src="/images/donatic.jpg"/>
+            </div>
+        </div>
+        <div class="donat-form-container">
+            <div class="donat-form-amount-container">
+                <p class="mb-10-px text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Сумма (от 2 рублей)</p>
+                @if(Model.InfoAccount != null){
+                    @if (Model.InfoAccount.User != null)
+                    {
+                        <input id="pay-form-user-id" style="display:none;" value="@(Model.InfoAccount.User.Id)"/>
+                    }
+                }
+                <input id="pay-form-amount" type="number" min="2" max="15000" value="2"/>
+            </div>
+            <button onclick="SendDonatYoumoney()">Перевести</button>
+        </div>
+    </div>
+</div>

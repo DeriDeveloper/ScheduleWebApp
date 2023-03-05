@@ -1,0 +1,17 @@
+﻿@page
+@model ScheduleWebApp.Pages.ControllPanelModel
+@{
+
+
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+}
+
+<div class="container" style="display:flex;">
+    @foreach (var keyValuePairLinks in Model.Links)
+    {
+        <a href="@(keyValuePairLinks.Value)" class="link-text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(keyValuePairLinks.Key)</a>
+    }
+</div>

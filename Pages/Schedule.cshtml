@@ -1,0 +1,143 @@
+﻿@page
+@model ScheduleWebApp.Pages.ScheduleModel
+@{
+
+    if (!string.IsNullOrEmpty(Model.CurrentGroup?.Name))
+    {
+        ViewData["Title"] = $"Расписание {Model.CurrentGroup.Name}";
+    }
+    else if (!string.IsNullOrEmpty(Model.CurrentTeacher?.Name))
+    {
+        ViewData["Title"] = $"Расписание {Model.CurrentTeacher.Name}";
+    }
+    else ViewData["Title"] = "Расписание";
+
+
+
+
+
+    /*if(Model.UserInfo != null){
+        ViewBag.UserInfo = Model.UserInfo;
+    }*/
+
+    if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+    {
+        ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+    }
+
+    ViewBag.NotificationMessageUnstableData = Program.MainConfigJson.DeveloperSettings.Schedule.NotificationMessages.NotificationMessageUnstableData;
+
+}
+
+
+
+
+
+    <div id="schedule-container-blocks-all-information" class="container-main padding-lr-20" style="display:flex;flex-direction: column;">
+        @if (Model.InformationsSchedule != null){
+            @if(Model.InformationsSchedule.Length > 0){
+                <div class="background-info-main-block-for-schedule  background-info-main-block-for-schedule-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                    <h3 style="text-align:center; color:white;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Информация</h3>
+                    @foreach(var informationSchedule in Model.InformationsSchedule){
+                        <div class="background-info-block-for-schedule background-info-block-for-schedule-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                        
+                                <p style="line-break: anywhere;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@informationSchedule.Description</p>
+                        
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+        
+
+        <div class="content-container content-container-l-1-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+            @if (Model.TypeScheduleFrom == Types.Enums.TypeScheduleFrom.Student)
+            {
+                @if (!string.IsNullOrEmpty(Model.CurrentGroup?.Specialization?.Name))
+                {
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Специальность: @Model.CurrentGroup.Specialization.Name</p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.CurrentGroup?.Name))
+                {
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Группа: @Model.CurrentGroup.Name</p>
+                }
+            }
+            else if (Model.TypeScheduleFrom == Types.Enums.TypeScheduleFrom.Teacher)
+            {
+                if(Model.CurrentTeacher!=null){
+                    <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">ФИО: @Model.CurrentTeacher.GetFullName()</p>
+                }
+            }
+            <br/>
+           <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Тип недели: @(LibrarySchedule.Services.BackgroundWorker.GetTypeCellSchedule(Model.TypeWeek))</p>
+        </div>
+        
+
+           <div class="services-schedule-main-container">
+               <div class="services-schedule-main-scroll-container">
+                   <div>
+                       <a href="/ScheduleExam?@(Model.CurrentGroup?.Id != 0 ? $"group_id={Model.CurrentGroup.Id}" : Model.Teacher.Id != 0 ? $"teacher_id={Model.Teacher.Id}" : "")">
+                           <div class="service-schedule-cell service-schedule-cell-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                               <img src="~/images/exam-book-icon.png"  style="height:50px;"/>
+                               <h4 style="letter-spacing: 2px;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Экзамены</h4>
+                           </div>
+                       </a>
+                   </div>
+                   <!--@@if(Model.CurrentGroup?.Id != 0){
+                       <div>
+                           <a href="/Notes?@@($"group_id={Model.CurrentGroup.Id}")">
+                               <div class="service-schedule-cell service-schedule-cell-theme-@@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                                   <img src="~/images/notepad.png"  style="height:50px;"/>
+                                   <h4 style="letter-spacing: 2px;" class="text-theme-@@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Заметки группы</h4>
+                               </div>
+                           </a>
+                       </div>
+                   }-->
+                   <div>
+                       <a href="/CalendarNumeratorAndDenominator">
+                           <div class="service-schedule-cell service-schedule-cell-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">
+                               <img src="~/images/calendar.png"  style="height:50px;"/>
+                               <h4 style="letter-spacing: 2px;" class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Даты числителя и знаменателя</h4>
+                           </div>
+                       </a>
+                   </div>
+               </div>
+           </div>
+
+
+
+            @if (Model.DateAndDayOfWeeks != null)
+            {
+                <div class="day-of-week-buttons">
+                    @foreach(var dataAndDayOfWeek in Model.DateAndDayOfWeeks)
+                    {
+                        <div style="text-align: center;">
+                            @if (dataAndDayOfWeek.Date == Model.SelectedDate){
+                                <div style="width:4px; height:4px; border-radius:100%; margin: 0 auto;" class="day-of-week-background-active-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")"></div>
+                            }
+                            <p class="day-of-week-text text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")" class="@(dataAndDayOfWeek.Date == Model.SelectedDate ? "day-of-week-text-active": "")">@(LibrarySchedule.Services.BackgroundWorker.GetDayOfWeekRus(dataAndDayOfWeek.Date.DayOfWeek, abbreviated: true))</p>
+                        
+                            <a href="/@($"Schedule?{(Model.CurrentGroup?.Id > 0 ? "group_id="+Model.CurrentGroup.Id.ToString(): (Model.CurrentTeacher?.Id >0 ? "teacher_id=" + Model.CurrentTeacher.Id.ToString():""))}" +"&date="+ dataAndDayOfWeek.Date.ToString("yyyy.MM.dd"))">
+                                <div  style="color: @(dataAndDayOfWeek.Date == Model.SelectedDate ? "#fff": "#000"); display: flex; justify-content: center; align-items: center;" class="day-of-week-button day-of-week-button-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light") @(dataAndDayOfWeek.Date == Model.SelectedDate ? ("day-of-week-button-active-theme-" + (ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")): "")">
+                                    <div>
+                                        <p class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">@(dataAndDayOfWeek.Date.Day)</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+
+            
+            <div style="margin: 0 0 100px 0;">
+                @if (Model.CellsSchedule != null)
+                {
+                    @Html.Raw(Services.HtmlWorker.GetHtmlContainerDayOfWeekCellsSchedule(Model.CellsSchedule,  ViewData));
+                }
+            </div>
+    </div>
+
+

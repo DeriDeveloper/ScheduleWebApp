@@ -1,0 +1,16 @@
+﻿@page
+@model ScheduleWebApp.Pages.Error._449Model
+@{
+
+	if (Model.InfoAccount?.UrlScheduleUserForProfile != null)
+	{
+		ViewBag.UrlScheduleUserForProfile = Model.InfoAccount.UrlScheduleUserForProfile;
+	}
+}
+
+
+
+<div class="container-error">
+    <h1 class="header-error-code header-error-code-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">449</h1>
+    <h3 class="text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">Упс, что то пошло не так, попробуйте <a href="/" class="link-text-theme-@(ViewData["ThemeName"]  != null ? ViewData["ThemeName"] : "light")">перейти на главную страницу</a></h3>
+</div>
